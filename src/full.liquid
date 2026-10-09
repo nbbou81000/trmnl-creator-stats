@@ -74,7 +74,9 @@
         <div class="flex flex--col flex--left gap--xsmall lg:hidden">
           <span class="title title--small">{{ t.scan }}</span>
           <span class="label label--small value--tnums">{{ c.installs_s }} {{ t.installs | downcase }}</span>
-          <span class="label label--small value--tnums">{{ c.forks_s }} {{ t.forks | downcase }} · {{ c.recipes_s }} {{ t.recipes | downcase }}</span>
+          <span class="label label--small value--tnums">{{ c.forks_s }} {{ t.forks | downcase }}</span>
+          <span class="label label--small value--tnums">{{ t.fund }} {{ fund.ok }}/{{ fund.total }}</span>
+          {%- if fund.next_eta != "" -%}<span class="label label--small value--tnums">{{ t.next }} 50 · {{ fund.next_eta }}</span>{%- endif -%}
         </div>
         <div class="hidden lg:flex flex--col flex--left gap--xsmall">
           <span class="title title--small">{{ t.fund }}</span>
@@ -121,7 +123,7 @@
         <tbody>
           {%- for r in recipes limit: 7 -%}
           <tr{% if forloop.index > 6 %} class="hidden lg:table-row"{% endif %}>
-            <td><span class="label{% if r.focus %} label--underline{% endif %}">{{ r.name | truncate: 34 }}</span></td>
+            <td><span class="label{% if r.focus %} label--underline{% endif %}">{{ r.name | truncate: 30 }}</span></td>
             <td><span class="label value--tnums">{{ r.s_s }}</span></td>
             <td><span class="label value--tnums">{{ r.d7_s }}</span></td>
             <td><span class="label value--tnums">{{ r.rank_s }}</span></td>
@@ -129,7 +131,7 @@
               <div class="flex flex--row flex--center-y gap--small">
                 <svg class="w--10 h--2 lg:w--24 lg:h--3 no-shrink" viewBox="0 0 100 10" preserveAspectRatio="none"><rect x="0.5" y="0.5" width="99" height="9" fill="none" stroke="#000" stroke-width="1" vector-effect="non-scaling-stroke"/><rect x="0" y="0" width="{{ r.pct }}" height="10" fill="#000"/></svg>
                 <span class="label label--small value--tnums">{{ r.next_s }}</span>
-                <span class="label label--small label--gray hidden lg:inline">{{ r.eta_s }}</span>
+                <span class="label label--small">{{ r.eta_s }}</span>
               </div>
             </td>
           </tr>
