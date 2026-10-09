@@ -29,8 +29,8 @@ custom_fields:
   field_type: select
   name: Language
   options:
-  - 'English: en'
-  - 'Français: fr'
-  - 'Deutsch: de'
-  - 'Español: es'
+  - English: en
+  - Français: fr
+  - Deutsch: de
+  - Español: es
   default: en
