@@ -1,0 +1,58 @@
+{%- if c -%}
+<div class="layout layout--row layout--top">
+  <div class="grid grid--cols-12 gap--large w--full">
+
+    <div class="col--span-3 portrait:col--span-5 flex flex--col flex--left flex--top">
+      <span class="label label--small lg:label--base">{{ t.connections }}</span>
+      <span class="value {{ hero_sm_cls }} value--tnums">{{ c.total_s }}</span>
+      <div class="flex flex--row flex--center-y gap--small">
+        <span class="label label--inverted lg:label--base">{{ c.d7_s }}</span>
+        <span class="label label--small lg:label--base">{{ t.d7 }}</span>
+      </div>
+    </div>
+
+    <div class="col--span-3 portrait:col--span-7 flex flex--col flex--left flex--top gap--xsmall">
+      <span class="label label--small lg:label--base">{{ t.rank }}</span>
+      <div class="flex flex--row flex--bottom gap--small">
+        <span class="value value--small lg:value--large value--tnums">{{ c.rank_s }}</span>
+        <span class="label label--small lg:label--base">{{ c.of_s }}</span>
+      </div>
+      <div class="flex flex--row flex--center-y gap--xsmall">
+        {{ move_icon }}<span class="label label--small lg:label--base">{{ c.move_s | truncate: 30 }}</span>
+      </div>
+      <span class="label label--small label--gray lg:label--base">{{ c.top_s }} · {{ c.recipes_s }} {{ t.recipes | downcase }}</span>
+    </div>
+
+    <div class="col--span-6 portrait:col--span-12 flex flex--col flex--left flex--top gap--xsmall">
+      <div class="flex flex--row flex--between w--full">
+        <span class="label label--small lg:label--base">{{ t.chart_total }}</span>
+        <span class="label label--small label--gray lg:label--base">{{ chart.min_s }} → {{ chart.max_s }}</span>
+      </div>
+      <div class="h--20 lg:h--32 lg:portrait:h--36 w--full no-shrink">
+        <svg class="w--full h--full" viewBox="0 0 300 100" preserveAspectRatio="none">
+          <path d="M0 6H300M0 94H300" stroke="#000" stroke-width="1" stroke-dasharray="2 5" vector-effect="non-scaling-stroke" fill="none"/>
+          <polyline points="{{ chart.line }}" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        </svg>
+      </div>
+      <div class="h--6 lg:h--10 lg:portrait:h--10 w--full no-shrink">
+        <svg class="w--full h--full" viewBox="0 0 300 100" preserveAspectRatio="none"><path d="{{ chart.bars }}" fill="#000"/></svg>
+      </div>
+      <div class="flex flex--row flex--between w--full">
+        <span class="label label--small label--gray">{{ chart.start_s }}</span>
+        <span class="label label--small label--gray">{{ chart.end_s }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+{%- else -%}
+<div class="layout layout--col layout--center gap--small">
+  <span class="title title--small">{% if t %}{{ t.not_found }}{% else %}No recipe found with this ID{% endif %}</span>
+  <span class="label label--small text--center">trmnl.com/recipes/12345</span>
+</div>
+{%- endif -%}
+
+<div class="title_bar">
+  <img class="image" src="{{ icon_src }}">
+  <span class="title">{{ app_name }}</span>
+  <span class="instance">{% if c %}{{ c.name }} · {{ updated_hm }}{% endif %}</span>
+</div>

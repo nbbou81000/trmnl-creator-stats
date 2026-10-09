@@ -1,0 +1,40 @@
+{%- if c -%}
+<div class="layout layout--col layout--top gap--small">
+  <div class="grid grid--cols-2 lg:portrait:grid--cols-1 gap--medium w--full">
+    <div class="flex flex--col flex--left flex--top">
+      <span class="label label--small lg:label--base">{{ t.connections }}</span>
+      <span class="value {{ hero_sm_cls }} value--tnums">{{ c.total_s }}</span>
+      <span class="label hidden lg:portrait:block">{{ c.d7_s }} · {{ t.d7 }}</span>
+    </div>
+    <div class="flex flex--col flex--left flex--top">
+      <span class="label label--small lg:label--base">{{ t.rank }}</span>
+      <span class="value {{ rank_cls }} value--tnums">{{ c.rank_s }}</span>
+      <span class="label hidden lg:portrait:block">{{ c.of_s }} · {{ c.top_s }}</span>
+    </div>
+  </div>
+  <div class="grid grid--cols-2 gap--medium w--full lg:portrait:hidden">
+    <div class="flex flex--row flex--left flex--center-y gap--small">
+      <span class="label label--inverted lg:label--base">{{ c.d7_s }}</span>
+      <span class="label label--small lg:label--base">{{ t.d7 }}</span>
+    </div>
+    <div class="flex flex--row flex--left flex--center-y gap--xsmall">
+      {{ move_icon }}<span class="label label--small lg:label--base">{{ c.of_s }}</span>
+    </div>
+  </div>
+  <div class="h--8 lg:h--16 lg:portrait:h--24 w--full no-shrink">
+    <svg class="w--full h--full" viewBox="0 0 300 100" preserveAspectRatio="none">
+      <polyline points="{{ chart.line }}" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+    </svg>
+  </div>
+</div>
+{%- else -%}
+<div class="layout layout--col layout--center gap--small">
+  <span class="title title--small text--center">{% if t %}{{ t.not_found }}{% else %}No recipe found with this ID{% endif %}</span>
+</div>
+{%- endif -%}
+
+<div class="title_bar">
+  <img class="image" src="{{ icon_src }}">
+  <span class="title">{{ app_name }}</span>
+  <span class="instance">{% if c %}{{ c.name }}{% endif %}</span>
+</div>

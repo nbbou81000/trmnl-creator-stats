@@ -1,0 +1,36 @@
+---
+strategy: polling
+polling_verb: get
+polling_url: https://nbbou81000.github.io/trmnl-creator-stats/{{ language }}/{{ recipe_id }}.json
+polling_headers: ''
+polling_body: ''
+refresh_interval: 60
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+name: Creator Stats
+custom_fields:
+- keyname: about
+  name: About This Plugin
+  field_type: author_bio
+  category: kpi,programming
+  description: |-
+    Track your own TRMNL recipes on your TRMNL: total connections (installs + forks), your rank among all recipe creators and how it moved this week, a 30-day curve, new connections per day, and every recipe's progress toward its next milestone, including the 50 connections of the Creator Fund.<br><br>
+    Data comes from the <a href="https://nbbou81000.github.io/trmnl-leaderboard/">TRMNL Creator Leaderboard</a> and refreshes every hour. Available in English, French, German and Spanish, in every layout, on TRMNL OG and TRMNL X.
+  github_url: https://github.com/nbbou81000/trmnl-creator-stats
+  learn_more_url: https://nbbou81000.github.io/trmnl-leaderboard/
+- keyname: recipe_id
+  field_type: string
+  name: One of your recipe IDs
+  description: The number at the end of the link to any of your public recipes, for example 375844 for trmnl.com/recipes/375844. Any one of your recipes works; the plugin shows all of them.
+  placeholder: '375844'
+  default: '375844'
+- keyname: language
+  field_type: select
+  name: Language
+  options:
+  - 'English: en'
+  - 'Français: fr'
+  - 'Deutsch: de'
+  - 'Español: es'
+  default: en

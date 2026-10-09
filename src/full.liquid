@@ -1,0 +1,112 @@
+{%- if c -%}
+<div class="layout layout--col layout--top">
+  <div class="grid grid--cols-12 gap--large w--full h--full portrait:gap--medium">
+
+    {%- comment -%} Left column (top band in portrait): who you are and where you stand {%- endcomment -%}
+    <div class="col--span-4 portrait:col--span-12 flex flex--col flex--left flex--top gap--small lg:gap--medium">
+      <div class="flex flex--col flex--left gap--small lg:gap--medium portrait:flex--row portrait:flex--between portrait:flex--bottom w--full">
+        <div class="flex flex--col flex--left">
+          <span class="label label--small lg:label--base">{{ t.connections }}</span>
+          <span class="value {{ hero_cls }} value--tnums">{{ c.total_s }}</span>
+          <div class="flex flex--row flex--center-y gap--small">
+            <span class="label label--inverted lg:label--base">{{ c.d7_s }}</span>
+            <span class="label label--small lg:label--base">{{ t.d7 }}</span>
+            <span class="label label--small label--gray lg:label--base">{{ c.d24_s }} · {{ t.d24 }}</span>
+          </div>
+        </div>
+        <div class="flex flex--col flex--left gap--xsmall">
+          <div class="flex flex--row flex--bottom gap--small">
+            <span class="value value--small lg:value--xlarge value--tnums">{{ c.rank_s }}</span>
+            <span class="label label--small lg:label--base">{{ c.of_s }} · {{ c.top_s }}</span>
+          </div>
+          <div class="flex flex--row flex--center-y gap--xsmall">
+            {{ move_icon }}<span class="label label--small lg:label--base">{{ c.move_s }}</span>
+          </div>
+          <span class="label label--small label--gray lg:label--base">{{ c.gap_up_s | truncate: 40 }}</span>
+        </div>
+      </div>
+
+      <div class="divider portrait:hidden"></div>
+      <div class="grid grid--cols-3 gap--small w--full portrait:hidden">
+        <div class="flex flex--col flex--left"><span class="value value--xsmall lg:value--small value--tnums">{{ c.installs_s }}</span><span class="label label--small">{{ t.installs }}</span></div>
+        <div class="flex flex--col flex--left"><span class="value value--xsmall lg:value--small value--tnums">{{ c.forks_s }}</span><span class="label label--small">{{ t.forks }}</span></div>
+        <div class="flex flex--col flex--left"><span class="value value--xsmall lg:value--small value--tnums">{{ c.recipes_s }}</span><span class="label label--small">{{ t.recipes }}</span></div>
+      </div>
+
+      <div class="hidden lg:flex lg:flex--row flex--center-y gap--medium pt--2 portrait:hidden">
+        <div class="w--24 h--24 no-shrink">{{ profile_url | qr_code }}</div>
+        <div class="flex flex--col flex--left gap--xsmall">
+          <span class="title title--small">{{ t.fund }}</span>
+          <span class="label label--small">{{ fund.label }}</span>
+          <span class="label label--small label--gray">{{ fund.next }}{% if fund.next_eta != "" %} · {{ fund.next_eta }}{% endif %}</span>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} Right column: 30-day curve, daily gains, recipes {%- endcomment -%}
+    <div class="col--span-8 portrait:col--span-12 flex flex--col flex--left flex--top gap--xsmall">
+      <div class="flex flex--row flex--between w--full">
+        <span class="label label--small lg:label--base">{{ t.chart_total }}</span>
+        <span class="label label--small label--gray lg:label--base">{{ chart.min_s }} → {{ chart.max_s }}</span>
+      </div>
+      <div class="h--20 lg:h--40 lg:portrait:h--56 w--full no-shrink">
+        <svg class="w--full h--full" viewBox="0 0 300 100" preserveAspectRatio="none">
+          <path d="M0 6H300M0 50H300M0 94H300" stroke="#000" stroke-width="1" stroke-dasharray="2 5" vector-effect="non-scaling-stroke" fill="none"/>
+          <polyline points="{{ chart.line }}" fill="none" stroke="#000" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        </svg>
+      </div>
+      <div class="flex flex--row flex--between w--full pt--1">
+        <span class="label label--small lg:label--base">{{ t.chart_daily }}</span>
+        <span class="label label--small label--gray lg:label--base">max {{ chart.bars_max_s }}</span>
+      </div>
+      <div class="h--8 lg:h--14 lg:portrait:h--20 w--full no-shrink">
+        <svg class="w--full h--full" viewBox="0 0 300 100" preserveAspectRatio="none"><path d="{{ chart.bars }}" fill="#000"/></svg>
+      </div>
+      <div class="flex flex--row flex--between w--full">
+        <span class="label label--small label--gray">{{ chart.start_s }}</span>
+        <span class="label label--small label--gray">{{ chart.end_s }}</span>
+      </div>
+
+      <table class="table table--small lg:table--base w--full mt--1">
+        <thead>
+          <tr>
+            <th><span class="title title--small">{{ t.recipe }}</span></th>
+            <th><span class="title title--small">{{ t.col_total }}</span></th>
+            <th><span class="title title--small">{{ t.col_d7 }}</span></th>
+            <th><span class="title title--small">{{ t.col_rank }}</span></th>
+            <th><span class="title title--small">{{ t.col_next }}</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for r in recipes limit: 7 -%}
+          <tr{% if forloop.index > 6 %} class="hidden lg:table-row"{% endif %}>
+            <td><span class="label{% if r.focus %} label--underline{% endif %}">{{ r.name | truncate: 34 }}</span></td>
+            <td><span class="label value--tnums">{{ r.s_s }}</span></td>
+            <td><span class="label value--tnums">{{ r.d7_s }}</span></td>
+            <td><span class="label value--tnums">{{ r.rank_s }}</span></td>
+            <td>
+              <div class="flex flex--row flex--center-y gap--small">
+                <svg class="w--10 h--2 lg:w--24 lg:h--3 no-shrink" viewBox="0 0 100 10" preserveAspectRatio="none"><rect x="0.5" y="0.5" width="99" height="9" fill="none" stroke="#000" stroke-width="1" vector-effect="non-scaling-stroke"/><rect x="0" y="0" width="{{ r.pct }}" height="10" fill="#000"/></svg>
+                <span class="label label--small value--tnums">{{ r.next_s }}</span>
+                <span class="label label--small label--gray hidden lg:inline">{{ r.eta_s }}</span>
+              </div>
+            </td>
+          </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{%- else -%}
+<div class="layout layout--col layout--center gap--medium">
+  <span class="title">{% if t %}{{ t.not_found }}{% else %}No recipe found with this ID{% endif %}</span>
+  <span class="description text--center">{% if t %}{{ t.not_found_hint }}{% else %}Use the number at the end of one of your recipe links: trmnl.com/recipes/12345{% endif %}</span>
+</div>
+{%- endif -%}
+
+<div class="title_bar">
+  <img class="image" src="{{ icon_src }}">
+  <span class="title">{{ app_name }}</span>
+  <span class="instance">{% if c %}{{ c.name }} · {{ t.updated }} {{ updated_hm }}{% endif %}</span>
+</div>

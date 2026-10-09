@@ -1,0 +1,22 @@
+{%- comment -%}
+  Creator Stats — shared.liquid
+  Data: one JSON per recipe and language, built hourly from the TRMNL Creator Leaderboard.
+  Every label arrives already translated in `t`; every number arrives already formatted (`*_s`).
+{%- endcomment -%}
+{%- capture icon_svg -%}<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M6.5 21v-6"/><path d="M12 21V10"/><path d="M17.5 21V4"/></svg>{%- endcapture -%}
+{%- capture icon_src -%}data:image/svg+xml;base64,{{ icon_svg | base64_encode }}{%- endcapture -%}
+{%- capture up_svg -%}<svg class="w--3 h--3 lg:w--4 lg:h--4" viewBox="0 0 10 10"><path d="M5 1 9.5 9h-9z" fill="#000"/></svg>{%- endcapture -%}
+{%- capture down_svg -%}<svg class="w--3 h--3 lg:w--4 lg:h--4" viewBox="0 0 10 10"><path d="M5 9 9.5 1h-9z" fill="#000"/></svg>{%- endcapture -%}
+{%- capture flat_svg -%}<svg class="w--3 h--3 lg:w--4 lg:h--4" viewBox="0 0 10 10"><path d="M1 4h8v2H1z" fill="#000"/></svg>{%- endcapture -%}
+{%- if c.move_dir == "up" -%}{%- assign move_icon = up_svg -%}{%- elsif c.move_dir == "down" -%}{%- assign move_icon = down_svg -%}{%- else -%}{%- assign move_icon = flat_svg -%}{%- endif -%}
+{%- assign tz_offset = trmnl.user.utc_offset | default: 0 -%}
+{%- assign updated_hm = updated | date: "%s" | plus: tz_offset | date: "%H:%M" -%}
+{%- if t -%}{%- assign app_name = t.app -%}{%- else -%}{%- assign app_name = "Creator Stats" -%}{%- endif -%}
+{%- assign total_len = c.total_s | size -%}
+{%- if total_len <= 3 -%}{%- assign hero_cls = "value--xxlarge lg:value--xxxlarge" -%}{%- assign hero_sm_cls = "value--xlarge lg:value--xxlarge lg:portrait:value--xlarge" -%}
+{%- elsif total_len <= 5 -%}{%- assign hero_cls = "value--xlarge lg:value--xxlarge" -%}{%- assign hero_sm_cls = "value--large lg:value--xlarge lg:portrait:value--large" -%}
+{%- else -%}{%- assign hero_cls = "value--large lg:value--xlarge" -%}{%- assign hero_sm_cls = "value--base lg:value--large lg:portrait:value--base" -%}{%- endif -%}
+{%- assign rank_len = c.rank_s | size -%}
+{%- if rank_len <= 3 -%}{%- assign rank_cls = "value--xlarge lg:value--xxlarge lg:portrait:value--xlarge" -%}
+{%- elsif rank_len <= 4 -%}{%- assign rank_cls = "value--large lg:value--xlarge lg:portrait:value--large" -%}
+{%- else -%}{%- assign rank_cls = "value--base lg:value--large lg:portrait:value--base" -%}{%- endif -%}
