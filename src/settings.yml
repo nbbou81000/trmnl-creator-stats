@@ -28,10 +28,11 @@ custom_fields:
 - keyname: mode
   field_type: select
   name: Display
-  description: Overview of your account, or one card per recipe with its screenshot, 15-day curve and next milestone.
+  description: Overview of your account; one card per recipe with its screenshot, 15-day curve and next milestone; or a compact list of every recipe with its connections and weekly gain.
   options:
   - Overview: overview
   - My recipes: recipes
+  - All recipes (compact): all
   default: overview
 - keyname: language
   field_type: select

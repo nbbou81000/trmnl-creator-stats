@@ -7,6 +7,8 @@ export const LOCALE = { en: 'en-US', fr: 'fr-FR', de: 'de-DE', es: 'es-ES' };
 export const T = {
   en: {
     my_recipes: 'My recipes',
+    all_recipes: 'All recipes',
+    more: '+{n}',
     col_total: 'Total',
     col_d7: '7 d',
     col_rank: 'Rank',
@@ -71,6 +73,8 @@ export const T = {
   },
   fr: {
     my_recipes: 'Mes recettes',
+    all_recipes: 'Toutes les recettes',
+    more: '+{n}',
     col_total: 'Total',
     col_d7: '7 j',
     col_rank: 'Rang',
@@ -135,6 +139,8 @@ export const T = {
   },
   de: {
     my_recipes: 'Meine Rezepte',
+    all_recipes: 'Alle Rezepte',
+    more: '+{n}',
     col_total: 'Gesamt',
     col_d7: '7 T.',
     col_rank: 'Rang',
@@ -199,6 +205,8 @@ export const T = {
   },
   es: {
     my_recipes: 'Mis recetas',
+    all_recipes: 'Todas las recetas',
+    more: '+{n}',
     col_total: 'Total',
     col_d7: '7 d',
     col_rank: 'Puesto',

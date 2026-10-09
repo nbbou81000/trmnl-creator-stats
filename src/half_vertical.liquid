@@ -25,6 +25,31 @@
     {%- endfor -%}
   </div>
 </div>
+{%- elsif c and mode == "all" -%}
+{%- assign tx_local = "label label--small lg:label--base" -%}
+{%- assign cap = 36 -%}{%- assign ncols = 2 -%}
+{%- if n_all < cap -%}{%- assign shown = n_all -%}{%- else -%}{%- assign shown = cap -%}{%- endif -%}
+{%- if shown < ncols -%}{%- assign ncols = shown -%}{%- endif -%}
+{%- assign per = shown | plus: ncols | minus: 1 | divided_by: ncols | floor -%}
+<div class="layout layout--col layout--top gap--small lg:gap--medium">
+  {{ all_header }}
+  <div class="grid grid--cols-{{ ncols }} gap--large w--full">
+    {%- for col in (1..ncols) -%}
+    {%- assign off = col | minus: 1 | times: per -%}
+    <div class="flex flex--col flex--left flex--top gap--xsmall lg:gap--small">
+      {%- for r in all limit: per offset: off -%}
+      {%- if off < shown -%}
+      <div class="flex flex--row flex--between flex--center-y gap--small w--full">
+        <span class="{{ tx_local }}{% if r.f %} label--underline{% endif %}">{{ forloop.index | plus: off }}. {{ r.n | truncate: 14 }}</span>
+        <div class="flex flex--row gap--xsmall no-shrink"><span class="{{ tx_local }} value--tnums">{{ r.s }}</span><span class="{{ tx_local }} value--tnums">{{ r.d }}</span></div>
+      </div>
+      {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {%- endfor -%}
+  </div>
+  {%- if n_all > shown -%}<span class="label label--small">+{{ n_all | minus: shown }}</span>{%- endif -%}
+</div>
 {%- elsif c -%}
 <div class="layout layout--col layout--top gap--medium">
   <div class="grid grid--cols-2 gap--medium w--full">

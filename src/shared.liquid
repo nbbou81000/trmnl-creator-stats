@@ -23,3 +23,14 @@
 {%- assign mode = trmnl.plugin_settings.custom_fields_values.mode | default: "overview" -%}
 {%- assign n_recipes = recipes | size -%}
 {%- if n_recipes <= 2 -%}{%- assign card_cols = "grid--cols-2" -%}{%- elsif n_recipes == 3 -%}{%- assign card_cols = "grid--cols-3" -%}{%- else -%}{%- assign card_cols = "grid--cols-4 lg:portrait:grid--cols-3" -%}{%- endif -%}
+{%- assign n_all = n_all | default: 0 -%}
+{%- if n_all <= 10 -%}{%- assign all_ncols = 1 -%}{%- assign all_txt = "label label--large lg:label--xlarge" -%}{%- assign all_trunc = 48 -%}{%- assign all_gap = "gap--medium lg:gap--large" -%}
+{%- elsif n_all <= 24 -%}{%- assign all_ncols = 2 -%}{%- assign all_txt = "label lg:label--large" -%}{%- assign all_trunc = 30 -%}{%- assign all_gap = "gap--small lg:gap--medium" -%}
+{%- elsif n_all <= 45 -%}{%- assign all_ncols = 3 -%}{%- assign all_txt = "label label--small lg:label--base" -%}{%- assign all_trunc = 20 -%}{%- assign all_gap = "gap--xsmall lg:gap--small" -%}
+{%- else -%}{%- assign all_ncols = 4 -%}{%- assign all_txt = "label label--small lg:label--base" -%}{%- assign all_trunc = 15 -%}{%- assign all_gap = "gap--xsmall lg:gap--small" -%}{%- endif -%}
+{%- capture all_header -%}
+  <div class="flex flex--row flex--between flex--center-y w--full">
+    <span class="title title--small lg:title--base">{{ t.all_recipes }} · {{ c.recipes_s }}</span>
+    <span class="label label--small lg:label--base value--tnums">{{ c.total_s }} · {{ c.d7_s }} {{ t.d7 }} · {{ c.rank_s }}</span>
+  </div>
+{%- endcapture -%}

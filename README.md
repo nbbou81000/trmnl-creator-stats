@@ -10,6 +10,8 @@ What it shows:
 - each recipe with its connections, weekly gain, catalogue rank and progress toward its next milestone (10, 25, 50, 100, 250…), with an estimated date
 - Creator Fund progress (recipes at 50 connections or more) and a QR code to your full profile on the leaderboard (TRMNL X)
 
+Three displays, chosen in the plugin settings: **Overview** (everything above), **My recipes** (one card per recipe with its screenshot, 15-day curve and next milestone) and **All recipes (compact)** (every recipe of the creator, with connections and weekly gain, in up to four columns).
+
 Four languages (English, French, German, Spanish), four layouts (full, half horizontal, half vertical, quadrant), tuned for TRMNL OG and TRMNL X in landscape and portrait.
 
 ## Setup

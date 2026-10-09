@@ -257,6 +257,8 @@ function build(u, L, focusId) {
     newest: newest ? { name: newest.n, date_s: newest.p ? dateS(L, newest.p, true) : '' } : null,
     highlights: hl.slice(0, 4),
     recipes: rows,
+    all: mine.slice(0, 120).map(r => ({ n: r.n, s: num(L, r.s), d: signed(L, r.d7), f: r.id === focusId })),
+    n_all: mine.length,
   };
 }
 
