@@ -16,7 +16,7 @@
     {%- for r in recipes limit: 9 -%}
     <div class="{% if forloop.index > 8 %}hidden lg:portrait:flex {% else %}flex {% endif %}flex--col flex--left gap--xsmall">
       <div class="w--full outline">
-        {%- if r.shot != "" -%}<img class="image w--full" src="{{ r.shot }}">{%- endif -%}
+        {%- if r.shot != "" -%}<img class="image image-dither w--full" src="{{ r.shot }}">{%- endif -%}
       </div>
       <span class="title title--small{% if r.focus %} label--underline{% endif %}">{{ r.name | truncate: 24 }}</span>
       <div class="flex flex--row flex--between flex--bottom w--full">

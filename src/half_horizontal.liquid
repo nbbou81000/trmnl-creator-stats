@@ -3,7 +3,7 @@
   <div class="grid {{ card_cols }} gap--medium lg:portrait:grid--cols-4 w--full">
     {%- for r in recipes limit: 4 -%}
     <div class="flex flex--col flex--left gap--xsmall">
-      {%- if r.shot != "" -%}<div class="hidden lg:block w--full outline"><img class="image w--full" src="{{ r.shot }}"></div>{%- endif -%}
+      {%- if r.shot != "" -%}<div class="hidden lg:block w--full outline"><img class="image image-dither w--full" src="{{ r.shot }}"></div>{%- endif -%}
       <span class="title title--small{% if r.focus %} label--underline{% endif %}">{{ r.name | truncate: 20 }}</span>
       <div class="flex flex--row flex--between flex--bottom w--full">
         <span class="value value--small lg:value--base value--tnums">{{ r.s_s }}</span>
