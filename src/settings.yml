@@ -16,6 +16,7 @@ custom_fields:
   category: kpi,programming
   description: |-
     Track your own TRMNL recipes on your TRMNL: total connections (installs + forks), your rank among all recipe creators and how it moved this week, a 30-day curve, new connections per day, and every recipe's progress toward its next milestone, including the 50 connections of the Creator Fund.<br><br>
+    Three displays: Overview, My recipes (one card per recipe with its screenshot, showing your top 8 on OG and top 9 on X) and All recipes (a compact list of every recipe you published).<br><br>
     Data comes from the <a href="https://nbbou81000.github.io/trmnl-leaderboard/">TRMNL Creator Leaderboard</a> and refreshes every hour. Available in English, French, German and Spanish, in every layout, on TRMNL OG and TRMNL X.
   github_url: https://github.com/nbbou81000/trmnl-creator-stats
   learn_more_url: https://nbbou81000.github.io/trmnl-leaderboard/
