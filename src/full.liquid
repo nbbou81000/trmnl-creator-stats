@@ -63,15 +63,20 @@
       </div>
 
       <div class="divider portrait:hidden"></div>
-      <div class="grid grid--cols-3 gap--small w--full portrait:hidden">
-        <div class="flex flex--col flex--left"><span class="value value--xsmall lg:value--small value--tnums">{{ c.installs_s }}</span><span class="label label--small">{{ t.installs }}</span></div>
-        <div class="flex flex--col flex--left"><span class="value value--xsmall lg:value--small value--tnums">{{ c.forks_s }}</span><span class="label label--small">{{ t.forks }}</span></div>
-        <div class="flex flex--col flex--left"><span class="value value--xsmall lg:value--small value--tnums">{{ c.recipes_s }}</span><span class="label label--small">{{ t.recipes }}</span></div>
+      <div class="hidden lg:grid grid--cols-3 gap--small w--full portrait:hidden">
+        <div class="flex flex--col flex--left"><span class="value value--small value--tnums">{{ c.installs_s }}</span><span class="label label--small">{{ t.installs }}</span></div>
+        <div class="flex flex--col flex--left"><span class="value value--small value--tnums">{{ c.forks_s }}</span><span class="label label--small">{{ t.forks }}</span></div>
+        <div class="flex flex--col flex--left"><span class="value value--small value--tnums">{{ c.recipes_s }}</span><span class="label label--small">{{ t.recipes }}</span></div>
       </div>
 
-      <div class="hidden lg:flex lg:flex--row flex--center-y gap--medium pt--2 portrait:hidden">
+      <div class="flex flex--row flex--center-y gap--medium lg:pt--2 portrait:hidden">
         <div class="w--24 h--24 no-shrink">{{ profile_url | qr_code }}</div>
-        <div class="flex flex--col flex--left gap--xsmall">
+        <div class="flex flex--col flex--left gap--xsmall lg:hidden">
+          <span class="title title--small">{{ t.scan }}</span>
+          <span class="label label--small value--tnums">{{ c.installs_s }} {{ t.installs | downcase }}</span>
+          <span class="label label--small value--tnums">{{ c.forks_s }} {{ t.forks | downcase }} · {{ c.recipes_s }} {{ t.recipes | downcase }}</span>
+        </div>
+        <div class="hidden lg:flex flex--col flex--left gap--xsmall">
           <span class="title title--small">{{ t.fund }}</span>
           <span class="label label--small">{{ fund.label }}</span>
           <span class="label label--small label--gray">{{ fund.next }}{% if fund.next_eta != "" %} · {{ fund.next_eta }}{% endif %}</span>
