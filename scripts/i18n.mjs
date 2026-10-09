@@ -6,6 +6,7 @@ export const LOCALE = { en: 'en-US', fr: 'fr-FR', de: 'de-DE', es: 'es-ES' };
 
 export const T = {
   en: {
+    my_recipes: 'My recipes',
     col_total: 'Total',
     col_d7: '7 d',
     col_rank: 'Rank',
@@ -69,6 +70,7 @@ export const T = {
     source: 'Data: TRMNL Creator Leaderboard',
   },
   fr: {
+    my_recipes: 'Mes recettes',
     col_total: 'Total',
     col_d7: '7 j',
     col_rank: 'Rang',
@@ -132,6 +134,7 @@ export const T = {
     source: 'Données : Palmarès des créateurs TRMNL',
   },
   de: {
+    my_recipes: 'Meine Rezepte',
     col_total: 'Gesamt',
     col_d7: '7 T.',
     col_rank: 'Rang',
@@ -195,6 +198,7 @@ export const T = {
     source: 'Daten: TRMNL Creator Leaderboard',
   },
   es: {
+    my_recipes: 'Mis recetas',
     col_total: 'Total',
     col_d7: '7 d',
     col_rank: 'Puesto',

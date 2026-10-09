@@ -2,12 +2,10 @@ name: Build creator stats
 
 # Reads the public data of the TRMNL Creator Leaderboard (read only) and publishes
 # one small JSON per recipe and language on this repository's GitHub Pages.
+# Triggered every hour by cron-job.org (GitHub API), at hh:20, after the leaderboard
+# refresh (data collected around hh:07). If the leaderboard is late, build.mjs waits for it.
 on:
-  schedule:
-    - cron: '25 * * * *'        # every hour, about 15 minutes after the leaderboard refresh
-  workflow_dispatch:             # "Run workflow" button in the Actions tab
-  repository_dispatch:
-    types: [refresh]             # optional external trigger (cron-job.org)
+  workflow_dispatch:             # "Run workflow" button, also used by cron-job.org
 
 permissions:
   contents: read

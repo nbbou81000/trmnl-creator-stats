@@ -20,3 +20,6 @@
 {%- if rank_len <= 3 -%}{%- assign rank_cls = "value--xlarge lg:value--xxlarge lg:portrait:value--xlarge" -%}
 {%- elsif rank_len <= 4 -%}{%- assign rank_cls = "value--large lg:value--xlarge lg:portrait:value--large" -%}
 {%- else -%}{%- assign rank_cls = "value--base lg:value--large lg:portrait:value--base" -%}{%- endif -%}
+{%- assign mode = trmnl.plugin_settings.custom_fields_values.mode | default: "overview" -%}
+{%- assign n_recipes = recipes | size -%}
+{%- if n_recipes <= 2 -%}{%- assign card_cols = "grid--cols-2" -%}{%- elsif n_recipes == 3 -%}{%- assign card_cols = "grid--cols-3" -%}{%- else -%}{%- assign card_cols = "grid--cols-4 lg:portrait:grid--cols-3" -%}{%- endif -%}

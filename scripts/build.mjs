@@ -27,8 +27,15 @@ async function load(rel, fallback) {
   }
 }
 
-const [latest, daily, weekly, breakout, spotHist, names] = await Promise.all([
-  load('data/latest.json'),
+// Le palmarès se met à jour chaque heure (relevé vers hh:07). Si ce passage-ci tombe avant
+// la fin de sa mise à jour, on patiente un peu plutôt que de republier des chiffres d'il y a une heure.
+let latest = await load('data/latest.json');
+for (let k = 0; !args.src && k < 6 && Date.now() - Date.parse(latest.generated_at) > 55 * 60e3; k++) {
+  console.log(`Données du palmarès du ${latest.generated_at} : mise à jour pas encore publiée, nouvel essai dans 2 min…`);
+  await new Promise(r => setTimeout(r, 120e3));
+  latest = await load('data/latest.json');
+}
+const [daily, weekly, breakout, spotHist, names] = await Promise.all([
   load('data/daily.json'),
   load('data/weekly.json', {}),
   load('data/breakout.json', { picks: [] }),
@@ -100,10 +107,11 @@ const weekSnap = weekFrom ? snapAt(weekFrom) : null;
 
 // ---------- Courbes SVG (pré-calculées : aucune bibliothèque côté TRMNL) ----------
 const W = 300, H = 100;
-function line(values, { invert = false, pad = 6 } = {}) {
+function line(values, { invert = false, pad = 6, minSpan = 0 } = {}) {
   const pts = values.map((v, k) => [k, v]).filter(([, v]) => v != null);
   if (pts.length < 2) return null;
   let lo = Math.min(...pts.map(p => p[1])), hi = Math.max(...pts.map(p => p[1]));
+  if (hi - lo < minSpan) { const mid = (hi + lo) / 2; hi = mid + minSpan / 2; lo = mid - minSpan / 2; }
   if (hi === lo) { hi += 1; lo -= 1; }
   const n = values.length - 1 || 1;
   const xy = pts.map(([k, v]) => {
@@ -170,7 +178,7 @@ function build(u, L, focusId) {
   const rows = mine.slice(0, 30).map(r => {
     const nx = nextMilestone(r.s), pv = prevMilestone(r.s);
     const rRate = (r.d7 ?? 0) / 7;
-    const sp = line(recipeSeries(r.id), { pad: 4 });
+    const ser = recipeSeries(r.id), sp = line(ser, { pad: 4, minSpan: Math.max(6, Math.max(...ser.filter(v => v != null), 0) * 0.15) });
     return {
       id: r.id, name: r.n, focus: r.id === focusId,
       s: r.s, s_s: num(L, r.s), i_s: num(L, r.i), f_s: num(L, r.f),

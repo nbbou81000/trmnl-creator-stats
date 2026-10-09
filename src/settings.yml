@@ -25,6 +25,14 @@ custom_fields:
   description: The number at the end of the link to any of your public recipes, for example 375844 for trmnl.com/recipes/375844. Any one of your recipes works; the plugin shows all of them.
   placeholder: '375844'
   default: '375844'
+- keyname: mode
+  field_type: select
+  name: Display
+  description: Overview of your account, or one card per recipe with its screenshot, 15-day curve and next milestone.
+  options:
+  - Overview: overview
+  - My recipes: recipes
+  default: overview
 - keyname: language
   field_type: select
   name: Language

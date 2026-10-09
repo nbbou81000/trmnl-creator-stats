@@ -1,4 +1,19 @@
-{%- if c -%}
+{%- if c and mode == "recipes" -%}
+<div class="layout layout--col layout--top">
+  <div class="grid grid--cols-2 gap--medium w--full">
+    {%- for r in recipes limit: 6 -%}
+    <div class="{% if forloop.index > 4 %}hidden lg:portrait:flex {% else %}flex {% endif %}flex--col flex--left gap--xsmall">
+      <span class="label label--small lg:label--base{% if r.focus %} label--underline{% endif %}">{{ r.name | truncate: 18 }}</span>
+      <div class="flex flex--row flex--between flex--bottom w--full">
+        <span class="value value--small lg:value--large value--tnums">{{ r.s_s }}</span>
+        <span class="label label--small lg:label--base value--tnums">{{ r.d7_s }}</span>
+      </div>
+      <svg class="w--full h--2 lg:h--3" viewBox="0 0 100 10" preserveAspectRatio="none"><rect x="0.5" y="0.5" width="99" height="9" fill="none" stroke="#000" stroke-width="1" vector-effect="non-scaling-stroke"/><rect x="0" y="0" width="{{ r.pct }}" height="10" fill="#000"/></svg>
+    </div>
+    {%- endfor -%}
+  </div>
+</div>
+{%- elsif c -%}
 <div class="layout layout--col layout--top gap--small">
   <div class="grid grid--cols-2 lg:portrait:grid--cols-1 gap--medium w--full">
     <div class="flex flex--col flex--left flex--top">
