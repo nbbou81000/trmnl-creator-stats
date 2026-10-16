@@ -4,97 +4,122 @@
     {%- for r in recipes limit: 4 -%}
     <div class="flex flex--col flex--left gap--xsmall">
       {%- if r.shot != "" -%}<div class="hidden lg:block w--full outline"><img class="image image-dither w--full" src="{{ r.shot }}"></div>{%- endif -%}
-      <span class="title title--small{% if r.focus %} label--underline{% endif %}">{{ r.name | truncate: 20 }}</span>
+      <span class="title title--small{% if r.focus %} label--underline{% endif %} 1bit:text--black">{{ r.name | truncate: 20 }}</span>
       <div class="flex flex--row flex--between flex--bottom w--full">
-        <span class="value value--small lg:value--base value--tnums">{{ r.s_s }}</span>
-        <span class="label label--small lg:label--base value--tnums">{{ r.d7_s }} · {{ t.d7 }}</span>
+        <span class="value value--small lg:value--base value--tnums 1bit:text--black">{{ r.s_s }}</span>
+        <span class="label label--small lg:label--base value--tnums 1bit:text--black">{{ r.d7_s }} · {{ t.d7 }}</span>
       </div>
       <div class="h--8 lg:h--10 w--full no-shrink">
         <svg class="w--full h--full" viewBox="0 0 300 100" preserveAspectRatio="none"><polyline points="{{ r.spark | default: '0,94 300,94' }}" fill="none" stroke="#000" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
       </div>
       <div class="flex flex--row flex--center-y gap--small w--full">
         <svg class="w--full h--2 lg:h--3" viewBox="0 0 100 10" preserveAspectRatio="none"><rect x="0.5" y="0.5" width="99" height="9" fill="none" stroke="#000" stroke-width="1" vector-effect="non-scaling-stroke"/><rect x="0" y="0" width="{{ r.pct }}" height="10" fill="#000"/></svg>
-        <span class="label label--small value--tnums no-shrink">{{ r.next_s }}</span>
+        <span class="label label--small value--tnums no-shrink 1bit:text--black">{{ r.next_s }}</span>
       </div>
     </div>
     {%- endfor -%}
   </div>
 </div>
 {%- elsif c and mode == "all" -%}
-{%- assign tx_local = "label label--small lg:label--base" -%}
+{%- assign tx_local = "label label--small lg:label--base 1bit:text--black" -%}
 {%- assign cap = 28 -%}{%- assign ncols = 4 -%}
 {%- if n_all < cap -%}{%- assign shown = n_all -%}{%- else -%}{%- assign shown = cap -%}{%- endif -%}
 {%- if shown < ncols -%}{%- assign ncols = shown -%}{%- endif -%}
-{%- assign per = shown | plus: ncols | minus: 1 | divided_by: ncols | floor -%}
+{%- assign ncols_og = ncols -%}{%- assign ncols_x = ncols -%}
+{%- if shown <= 8 and shown >= 2 -%}{%- assign ncols_x = 2 -%}{%- endif -%}
 <div class="layout layout--col layout--top gap--small lg:gap--medium">
   
-  <div class="grid grid--cols-{{ ncols }} gap--large w--full">
+  {%- for pass in (1..2) -%}
+  {%- if pass == 1 -%}{%- assign ncols = ncols_og -%}{%- assign row_txt = tx_local -%}{%- assign trunc = 16 -%}{%- assign wrap = "lg:hidden" -%}{%- assign col_gap = "gap--xsmall lg:gap--small" -%}
+  {%- else -%}{%- assign ncols = ncols_x -%}{%- assign row_txt = "label label--large value--tnums" -%}{%- assign trunc = 24 -%}{%- assign wrap = "hidden lg:grid" -%}{%- assign col_gap = "gap--large" -%}{%- endif -%}
+  {%- assign per = shown | plus: ncols | minus: 1 | divided_by: ncols | floor -%}
+  <div class="grid grid--cols-{{ ncols }} gap--large w--full {{ wrap }}">
     {%- for col in (1..ncols) -%}
     {%- assign off = col | minus: 1 | times: per -%}
-    <div class="flex flex--col flex--left flex--top gap--xsmall lg:gap--small">
+    <div class="flex flex--col flex--left flex--top {{ col_gap }}">
       {%- for r in all limit: per offset: off -%}
       {%- if off < shown -%}
-      <div class="flex flex--row flex--between flex--center-y gap--small w--full">
-        <span class="{{ tx_local }}{% if r.f %} label--underline{% endif %}">{{ forloop.index | plus: off }}. {{ r.n | truncate: 16 }}</span>
-        <div class="flex flex--row gap--xsmall no-shrink"><span class="{{ tx_local }} value--tnums">{{ r.s }}</span><span class="{{ tx_local }} value--tnums">{{ r.d }}</span></div>
+      <div class="flex flex--col gap--xsmall w--full">
+        <div class="flex flex--row flex--between flex--center-y gap--small w--full">
+          <span class="{{ row_txt }}{% if r.f %} label--underline{% endif %}">{{ forloop.index | plus: off }}. {{ r.n | truncate: trunc }}</span>
+          <div class="flex flex--row gap--xsmall no-shrink"><span class="{{ row_txt }} value--tnums">{{ r.s }}</span><span class="{{ row_txt }} value--tnums">{{ r.d }}</span></div>
+        </div>
+        {%- if pass == 2 and r.p -%}
+        <div class="flex flex--row flex--center-y gap--small w--full">
+          <svg class="w--full h--3" viewBox="0 0 100 10" preserveAspectRatio="none"><rect x="0.5" y="0.5" width="99" height="9" fill="none" stroke="#000" stroke-width="1" vector-effect="non-scaling-stroke"/><rect x="0" y="0" width="{{ r.p }}" height="10" fill="#000"/></svg>
+          <span class="label label--small value--tnums no-shrink">{{ r.x }}</span>
+        </div>
+        {%- endif -%}
       </div>
       {%- endif -%}
       {%- endfor -%}
     </div>
     {%- endfor -%}
   </div>
-  {%- if n_all > shown -%}<span class="label label--small">+{{ n_all | minus: shown }}</span>{%- endif -%}
+  {%- endfor -%}
+  {%- if n_all > shown -%}<span class="label label--small 1bit:text--black">+{{ n_all | minus: shown }}</span>{%- endif -%}
 </div>
 {%- elsif c -%}
 <div class="layout layout--row layout--top">
   <div class="grid grid--cols-12 gap--large w--full">
 
     <div class="col--span-3 portrait:col--span-5 flex flex--col flex--left flex--top">
-      <span class="label label--small lg:label--base">{{ t.connections }}</span>
+      <span class="label label--small lg:label--base 1bit:text--black">{{ t.connections }}</span>
       <span class="value {{ hero_sm_cls }} value--tnums">{{ c.total_s }}</span>
       <div class="flex flex--row flex--center-y gap--small">
         <span class="label label--inverted lg:label--base">{{ c.d7_s }}</span>
-        <span class="label label--small lg:label--base">{{ t.d7 }}</span>
+        <span class="label label--small lg:label--base 1bit:text--black">{{ t.d7 }}</span>
+      </div>
+      <div class="hidden lg:flex lg:portrait:hidden flex--col flex--left gap--small pt--4">
+        <span class="label value--tnums">{{ c.d24_s }} · {{ t.d24 }}</span>
+        <span class="label value--tnums">{{ c.per_day_s }}</span>
+        <span class="label value--tnums">{{ c.installs_s }} {{ t.installs | downcase }} · {{ c.forks_s }} {{ t.forks | downcase }}</span>
       </div>
     </div>
 
     <div class="col--span-3 portrait:col--span-7 flex flex--col flex--left flex--top gap--xsmall">
-      <span class="label label--small lg:label--base">{{ t.rank }}</span>
+      <span class="label label--small lg:label--base 1bit:text--black">{{ t.rank }}</span>
       <div class="flex flex--row flex--bottom gap--small">
-        <span class="value value--small lg:value--large value--tnums">{{ c.rank_s }}</span>
-        <span class="label label--small lg:label--base">{{ c.of_s }}</span>
+        <span class="value value--small lg:value--large value--tnums 1bit:text--black">{{ c.rank_s }}</span>
+        <span class="label label--small lg:label--base 1bit:text--black">{{ c.of_s }}</span>
       </div>
       <div class="flex flex--row flex--center-y gap--xsmall">
-        {{ move_icon }}<span class="label label--small lg:label--base">{{ c.move_s | truncate: 30 }}</span>
+        {{ move_icon }}<span class="label label--small lg:label--base 1bit:text--black">{{ c.move_s | truncate: 30 }}</span>
       </div>
-      <span class="label label--small label--gray lg:label--base">{{ c.top_s }} · {{ c.recipes_s }} {{ t.recipes | downcase }}</span>
+      <span class="label label--small label--gray lg:label--base 1bit:text--black">{{ c.top_s }} · {{ c.recipes_s }} {{ t.recipes | downcase }}</span>
+      <div class="hidden lg:flex lg:portrait:hidden flex--col flex--left gap--small pt--4">
+        <span class="label">{{ c.gap_up_s | truncate: 40 }}</span>
+        <span class="title title--small">{{ t.fund }}</span>
+        <span class="label">{{ fund.label }}</span>
+        <span class="label">{{ fund.next | truncate: 44 }}{% if fund.next_eta != "" %} · {{ fund.next_eta }}{% endif %}</span>
+      </div>
     </div>
 
     <div class="col--span-6 portrait:col--span-12 flex flex--col flex--left flex--top gap--xsmall">
       <div class="flex flex--row flex--between w--full">
-        <span class="label label--small lg:label--base">{{ t.chart_total }}</span>
-        <span class="label label--small label--gray lg:label--base">{{ chart.min_s }} → {{ chart.max_s }}</span>
+        <span class="label label--small lg:label--base 1bit:text--black">{{ t.chart_total }}</span>
+        <span class="label label--small label--gray lg:label--base 1bit:text--black">{{ chart.min_s }} → {{ chart.max_s }}</span>
       </div>
-      <div class="h--20 lg:h--32 lg:portrait:h--36 w--full no-shrink">
+      <div class="h--20 lg:h--48 lg:portrait:h--36 w--full no-shrink">
         <svg class="w--full h--full" viewBox="0 0 300 100" preserveAspectRatio="none">
           <path d="M0 6H300M0 94H300" stroke="#000" stroke-width="1" stroke-dasharray="2 5" vector-effect="non-scaling-stroke" fill="none"/>
           <polyline points="{{ chart.line }}" fill="none" stroke="#000" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
         </svg>
       </div>
-      <div class="h--6 lg:h--10 lg:portrait:h--10 w--full no-shrink">
+      <div class="h--6 lg:h--20 lg:portrait:h--10 w--full no-shrink">
         <svg class="w--full h--full" viewBox="0 0 300 100" preserveAspectRatio="none"><path d="{{ chart.bars }}" fill="#000"/></svg>
       </div>
       <div class="flex flex--row flex--between w--full">
-        <span class="label label--small label--gray">{{ chart.start_s }}</span>
-        <span class="label label--small label--gray">{{ chart.end_s }}</span>
+        <span class="label label--small label--gray 1bit:text--black">{{ chart.start_s }}</span>
+        <span class="label label--small label--gray 1bit:text--black">{{ chart.end_s }}</span>
       </div>
     </div>
   </div>
 </div>
 {%- else -%}
 <div class="layout layout--col layout--center gap--small">
-  <span class="title title--small">{% if t %}{{ t.not_found }}{% else %}No recipe found with this ID{% endif %}</span>
-  <span class="label label--small text--center">trmnl.com/recipes/12345</span>
+  <span class="title title--small 1bit:text--black">{% if t %}{{ t.not_found }}{% else %}No recipe found with this ID{% endif %}</span>
+  <span class="label label--small text--center 1bit:text--black">trmnl.com/recipes/12345</span>
 </div>
 {%- endif -%}
 

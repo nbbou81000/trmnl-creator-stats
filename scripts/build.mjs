@@ -257,7 +257,10 @@ function build(u, L, focusId) {
     newest: newest ? { name: newest.n, date_s: newest.p ? dateS(L, newest.p, true) : '' } : null,
     highlights: hl.slice(0, 4),
     recipes: rows,
-    all: mine.slice(0, 120).map(r => ({ n: r.n, s: num(L, r.s), d: signed(L, r.d7), f: r.id === focusId })),
+    all: mine.slice(0, 120).map(r => {
+      const nx = nextMilestone(r.s), pv = prevMilestone(r.s);
+      return { n: r.n, s: num(L, r.s), d: signed(L, r.d7), f: r.id === focusId, p: nx ? Math.max(2, Math.min(100, Math.round((r.s - pv) / (nx - pv) * 100))) : 100, x: nx ? num(L, nx) : '' };
+    }),
     n_all: mine.length,
   };
 }
