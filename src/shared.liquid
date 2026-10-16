@@ -22,6 +22,8 @@
 {%- else -%}{%- assign rank_cls = "value--base lg:value--large lg:portrait:value--base" -%}{%- endif -%}
 {%- assign mode = trmnl.plugin_settings.custom_fields_values.mode | default: "overview" -%}
 {%- assign n_recipes = recipes | size -%}
+{%- comment -%} Rotation: when a creator has more recipes than the overview can show, the window moves one page per hour (the plugin refreshes hourly). The last page is clamped so the list stays full. {%- endcomment -%}
+{%- assign rot_h = "now" | date: "%s" | plus: 0 | divided_by: 3600 | floor -%}
 {%- if n_recipes <= 2 -%}{%- assign card_cols = "grid--cols-2" -%}{%- elsif n_recipes == 3 -%}{%- assign card_cols = "grid--cols-3" -%}{%- else -%}{%- assign card_cols = "grid--cols-4 lg:portrait:grid--cols-3" -%}{%- endif -%}
 {%- assign n_all = n_all | default: 0 -%}
 {%- if n_all <= 10 -%}{%- assign all_ncols = 1 -%}{%- assign all_txt = "label label--large lg:label--xlarge" -%}{%- assign all_trunc = 48 -%}{%- assign all_gap = "gap--medium lg:gap--large" -%}

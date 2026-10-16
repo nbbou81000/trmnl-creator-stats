@@ -106,9 +106,23 @@
 
   <div class="divider"></div>
 
+{%- assign og_pages = n_recipes | plus: 1 | divided_by: 2 | floor -%}{%- if og_pages < 1 -%}{%- assign og_pages = 1 -%}{%- endif -%}
+{%- assign og_off = rot_h | modulo: og_pages | times: 2 -%}{%- assign og_max = n_recipes | minus: 2 -%}{%- if og_max < 0 -%}{%- assign og_max = 0 -%}{%- endif -%}{%- if og_off > og_max -%}{%- assign og_off = og_max -%}{%- endif -%}
+{%- assign og_end = og_off | plus: 2 -%}{%- if og_end > n_recipes -%}{%- assign og_end = n_recipes -%}{%- endif -%}
+{%- assign x_pages = n_recipes | plus: 4 | divided_by: 5 | floor -%}{%- if x_pages < 1 -%}{%- assign x_pages = 1 -%}{%- endif -%}
+{%- assign x_off = rot_h | modulo: x_pages | times: 5 -%}{%- assign x_max = n_recipes | minus: 5 -%}{%- if x_max < 0 -%}{%- assign x_max = 0 -%}{%- endif -%}{%- if x_off > x_max -%}{%- assign x_off = x_max -%}{%- endif -%}
+{%- assign x_end = x_off | plus: 5 -%}{%- if x_end > n_recipes -%}{%- assign x_end = n_recipes -%}{%- endif -%}
+{%- assign xp_pages = n_recipes | plus: 7 | divided_by: 8 | floor -%}{%- if xp_pages < 1 -%}{%- assign xp_pages = 1 -%}{%- endif -%}
+{%- assign xp_off = rot_h | modulo: xp_pages | times: 8 -%}{%- assign xp_max = n_recipes | minus: 8 -%}{%- if xp_max < 0 -%}{%- assign xp_max = 0 -%}{%- endif -%}{%- if xp_off > xp_max -%}{%- assign xp_off = xp_max -%}{%- endif -%}
+{%- assign xp_end = xp_off | plus: 8 -%}{%- if xp_end > n_recipes -%}{%- assign xp_end = n_recipes -%}{%- endif -%}
   <div class="flex flex--col flex--left gap--small lg:gap--medium w--full">
-    {%- for r in recipes limit: 8 -%}
-    <div class="{% if forloop.index > 5 %}hidden lg:portrait:flex {% elsif forloop.index > 2 %}hidden lg:flex {% else %}flex {% endif %}flex--col flex--left gap--xsmall w--full">
+    {%- for r in recipes limit: 30 -%}
+    {%- assign k = forloop.index0 -%}
+    {%- if k >= og_off and k < og_end -%}{%- assign v_og = "flex" -%}{%- else -%}{%- assign v_og = "hidden" -%}{%- endif -%}
+    {%- if k >= x_off and k < x_end -%}{%- assign v_x = "lg:flex" -%}{%- else -%}{%- assign v_x = "lg:hidden" -%}{%- endif -%}
+    {%- if k >= xp_off and k < xp_end -%}{%- assign v_xp = "lg:portrait:flex" -%}{%- else -%}{%- assign v_xp = "lg:portrait:hidden" -%}{%- endif -%}
+    {%- if v_og == "flex" or v_x == "lg:flex" or v_xp == "lg:portrait:flex" -%}
+    <div class="{{ v_og }} {{ v_x }} {{ v_xp }} flex--col flex--left gap--xsmall w--full">
       <div class="flex flex--row flex--between w--full">
         <span class="title title--small{% if r.focus %} label--underline{% endif %} 1bit:text--black">{{ r.name | truncate: 26 }}</span>
         <span class="label label--small value--tnums 1bit:text--black">{{ r.s_s }}</span>
@@ -118,6 +132,7 @@
         <span class="label label--small label--gray value--tnums no-shrink 1bit:text--black">{{ r.d7_s }} · {{ r.next_s }}</span>
       </div>
     </div>
+    {%- endif -%}
     {%- endfor -%}
   </div>
 </div>

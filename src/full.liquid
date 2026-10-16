@@ -143,10 +143,16 @@
         <span class="label label--small label--gray 1bit:text--black">{{ chart.end_s }}</span>
       </div>
 
+{%- assign og_pages = n_recipes | plus: 5 | divided_by: 6 | floor -%}{%- if og_pages < 1 -%}{%- assign og_pages = 1 -%}{%- endif -%}
+{%- assign og_off = rot_h | modulo: og_pages | times: 6 -%}{%- assign og_max = n_recipes | minus: 6 -%}{%- if og_max < 0 -%}{%- assign og_max = 0 -%}{%- endif -%}{%- if og_off > og_max -%}{%- assign og_off = og_max -%}{%- endif -%}
+{%- assign og_end = og_off | plus: 6 -%}{%- if og_end > n_recipes -%}{%- assign og_end = n_recipes -%}{%- endif -%}
+{%- assign x_pages = n_recipes | plus: 6 | divided_by: 7 | floor -%}{%- if x_pages < 1 -%}{%- assign x_pages = 1 -%}{%- endif -%}
+{%- assign x_off = rot_h | modulo: x_pages | times: 7 -%}{%- assign x_max = n_recipes | minus: 7 -%}{%- if x_max < 0 -%}{%- assign x_max = 0 -%}{%- endif -%}{%- if x_off > x_max -%}{%- assign x_off = x_max -%}{%- endif -%}
+{%- assign x_end = x_off | plus: 7 -%}{%- if x_end > n_recipes -%}{%- assign x_end = n_recipes -%}{%- endif -%}
       <table class="table table--small lg:table--base w--full mt--1">
         <thead>
           <tr>
-            <th><span class="title title--small 1bit:text--black">{{ t.recipe }}</span></th>
+            <th><span class="title title--small 1bit:text--black">{{ t.recipe }}{% if og_pages > 1 %}<span class="lg:hidden"> · {{ og_off | plus: 1 }}–{{ og_end }}/{{ n_recipes }}</span>{% endif %}{% if x_pages > 1 %}<span class="hidden lg:inline"> · {{ x_off | plus: 1 }}–{{ x_end }}/{{ n_recipes }}</span>{% endif %}</span></th>
             <th><span class="title title--small 1bit:text--black">{{ t.col_total }}</span></th>
             <th><span class="title title--small 1bit:text--black">{{ t.col_d7 }}</span></th>
             <th><span class="title title--small 1bit:text--black">{{ t.col_rank }}</span></th>
@@ -154,8 +160,12 @@
           </tr>
         </thead>
         <tbody>
-          {%- for r in recipes limit: 7 -%}
-          <tr{% if forloop.index > 6 %} class="hidden lg:table-row"{% endif %}>
+          {%- for r in recipes limit: 30 -%}
+          {%- assign k = forloop.index0 -%}
+          {%- if k >= og_off and k < og_end -%}{%- assign v_og = true -%}{%- else -%}{%- assign v_og = false -%}{%- endif -%}
+          {%- if k >= x_off and k < x_end -%}{%- assign v_x = true -%}{%- else -%}{%- assign v_x = false -%}{%- endif -%}
+          {%- if v_og or v_x -%}
+          <tr{% if v_og and v_x %}{% elsif v_og %} class="lg:hidden"{% else %} class="hidden lg:table-row"{% endif %}>
             <td><span class="label{% if r.focus %} label--underline{% endif %}">{{ r.name | truncate: 30 }}</span></td>
             <td><span class="label value--tnums">{{ r.s_s }}</span></td>
             <td><span class="label value--tnums">{{ r.d7_s }}</span></td>
@@ -168,6 +178,7 @@
               </div>
             </td>
           </tr>
+          {%- endif -%}
           {%- endfor -%}
         </tbody>
       </table>
