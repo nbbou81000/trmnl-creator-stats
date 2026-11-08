@@ -7,21 +7,21 @@
       <span class="title title--small{% if r.focus %} label--underline{% endif %} 1bit:text--black">{{ r.name | truncate: 20 }}</span>
       <div class="flex flex--row flex--between flex--bottom w--full">
         <span class="value value--small lg:value--base value--tnums 1bit:text--black">{{ r.s_s }}</span>
-        <span class="label label--small lg:label--base value--tnums 1bit:text--black">{{ r.d7_s }} · {{ t.d7 }}</span>
+        <span class="label label--small font--bold lg:font--regular lg:label--base value--tnums 1bit:text--black">{{ r.d7_s }} · {{ t.d7 }}</span>
       </div>
       <div class="h--8 lg:h--10 w--full no-shrink">
         <svg class="w--full h--full" viewBox="0 0 300 100" preserveAspectRatio="none"><polyline points="{{ r.spark | default: '0,94 300,94' }}" fill="none" stroke="#000" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
       </div>
       <div class="flex flex--row flex--center-y gap--small w--full">
         <svg class="w--full h--2 lg:h--3" viewBox="0 0 100 10" preserveAspectRatio="none"><rect x="0.5" y="0.5" width="99" height="9" fill="none" stroke="#000" stroke-width="1" vector-effect="non-scaling-stroke"/><rect x="0" y="0" width="{{ r.pct }}" height="10" fill="#000"/></svg>
-        <span class="label label--small value--tnums no-shrink 1bit:text--black">{{ r.next_s }}</span>
+        <span class="label label--small font--bold lg:font--regular value--tnums no-shrink 1bit:text--black">{{ r.next_s }}</span>
       </div>
     </div>
     {%- endfor -%}
   </div>
 </div>
 {%- elsif c and mode == "all" -%}
-{%- assign tx_local = "label label--small lg:label--base 1bit:text--black" -%}
+{%- assign tx_local = "label label--small font--bold lg:font--regular lg:label--base 1bit:text--black" -%}
 {%- assign cap = 28 -%}{%- assign ncols = 4 -%}
 {%- if n_all < cap -%}{%- assign shown = n_all -%}{%- else -%}{%- assign shown = cap -%}{%- endif -%}
 {%- if shown < ncols -%}{%- assign ncols = shown -%}{%- endif -%}
@@ -47,7 +47,7 @@
         {%- if pass == 2 and r.p -%}
         <div class="flex flex--row flex--center-y gap--small w--full">
           <svg class="w--full h--3" viewBox="0 0 100 10" preserveAspectRatio="none"><rect x="0.5" y="0.5" width="99" height="9" fill="none" stroke="#000" stroke-width="1" vector-effect="non-scaling-stroke"/><rect x="0" y="0" width="{{ r.p }}" height="10" fill="#000"/></svg>
-          <span class="label label--small value--tnums no-shrink">{{ r.x }}</span>
+          <span class="label label--small font--bold lg:font--regular value--tnums no-shrink">{{ r.x }}</span>
         </div>
         {%- endif -%}
       </div>
@@ -57,18 +57,18 @@
     {%- endfor -%}
   </div>
   {%- endfor -%}
-  {%- if n_all > shown -%}<span class="label label--small 1bit:text--black">+{{ n_all | minus: shown }}</span>{%- endif -%}
+  {%- if n_all > shown -%}<span class="label label--small font--bold lg:font--regular 1bit:text--black">+{{ n_all | minus: shown }}</span>{%- endif -%}
 </div>
 {%- elsif c -%}
 <div class="layout layout--row layout--top">
   <div class="grid grid--cols-12 gap--large w--full">
 
     <div class="col--span-3 portrait:col--span-5 flex flex--col flex--left flex--top">
-      <span class="label label--small lg:label--base 1bit:text--black">{{ t.connections }}</span>
+      <span class="label label--small font--bold lg:font--regular lg:label--base 1bit:text--black">{{ t.connections }}</span>
       <span class="value {{ hero_sm_cls }} value--tnums">{{ c.total_s }}</span>
       <div class="flex flex--row flex--center-y gap--small">
         <span class="label label--inverted lg:label--base">{{ c.d7_s }}</span>
-        <span class="label label--small lg:label--base 1bit:text--black">{{ t.d7 }}</span>
+        <span class="label label--small font--bold lg:font--regular lg:label--base 1bit:text--black">{{ t.d7 }}</span>
       </div>
       <div class="hidden lg:flex lg:portrait:hidden flex--col flex--left gap--small pt--4">
         <span class="label value--tnums">{{ c.d24_s }} · {{ t.d24 }}</span>
@@ -78,15 +78,15 @@
     </div>
 
     <div class="col--span-3 portrait:col--span-7 flex flex--col flex--left flex--top gap--xsmall">
-      <span class="label label--small lg:label--base 1bit:text--black">{{ t.rank }}</span>
+      <span class="label label--small font--bold lg:font--regular lg:label--base 1bit:text--black">{{ t.rank }}</span>
       <div class="flex flex--row flex--bottom gap--small">
         <span class="value value--small lg:value--large value--tnums 1bit:text--black">{{ c.rank_s }}</span>
-        <span class="label label--small lg:label--base 1bit:text--black">{{ c.of_s }}</span>
+        <span class="label label--small font--bold lg:font--regular lg:label--base 1bit:text--black">{{ c.of_s }}</span>
       </div>
       <div class="flex flex--row flex--center-y gap--xsmall">
-        {{ move_icon }}<span class="label label--small lg:label--base 1bit:text--black">{{ c.move_s | truncate: 30 }}</span>
+        {{ move_icon }}<span class="label label--small font--bold lg:font--regular lg:label--base 1bit:text--black">{{ c.move_s | truncate: 30 }}</span>
       </div>
-      <span class="label label--small label--gray lg:label--base 1bit:text--black">{{ c.top_s }} · {{ c.recipes_s }} {{ t.recipes | downcase }}</span>
+      <span class="label label--small font--bold lg:font--regular label--gray lg:label--base 1bit:text--black">{{ c.top_s }} · {{ c.recipes_s }} {{ t.recipes | downcase }}</span>
       <div class="hidden lg:flex lg:portrait:hidden flex--col flex--left gap--small pt--4">
         <span class="label">{{ c.gap_up_s | truncate: 40 }}</span>
         <span class="title title--small">{{ t.fund }}</span>
@@ -97,8 +97,8 @@
 
     <div class="col--span-6 portrait:col--span-12 flex flex--col flex--left flex--top gap--xsmall">
       <div class="flex flex--row flex--between w--full">
-        <span class="label label--small lg:label--base 1bit:text--black">{{ t.chart_total }}</span>
-        <span class="label label--small label--gray lg:label--base 1bit:text--black">{{ chart.min_s }} → {{ chart.max_s }}</span>
+        <span class="label label--small font--bold lg:font--regular lg:label--base 1bit:text--black">{{ t.chart_total }}</span>
+        <span class="label label--small font--bold lg:font--regular label--gray lg:label--base 1bit:text--black">{{ chart.min_s }} → {{ chart.max_s }}</span>
       </div>
       <div class="h--20 lg:h--48 lg:portrait:h--36 w--full no-shrink">
         <svg class="w--full h--full" viewBox="0 0 300 100" preserveAspectRatio="none">
@@ -110,8 +110,8 @@
         <svg class="w--full h--full" viewBox="0 0 300 100" preserveAspectRatio="none"><path d="{{ chart.bars }}" fill="#000"/></svg>
       </div>
       <div class="flex flex--row flex--between w--full">
-        <span class="label label--small label--gray 1bit:text--black">{{ chart.start_s }}</span>
-        <span class="label label--small label--gray 1bit:text--black">{{ chart.end_s }}</span>
+        <span class="label label--small font--bold lg:font--regular label--gray 1bit:text--black">{{ chart.start_s }}</span>
+        <span class="label label--small font--bold lg:font--regular label--gray 1bit:text--black">{{ chart.end_s }}</span>
       </div>
     </div>
   </div>
@@ -119,7 +119,7 @@
 {%- else -%}
 <div class="layout layout--col layout--center gap--small">
   <span class="title title--small 1bit:text--black">{% if t %}{{ t.not_found }}{% else %}No recipe found with this ID{% endif %}</span>
-  <span class="label label--small text--center 1bit:text--black">trmnl.com/recipes/12345</span>
+  <span class="label label--small font--bold lg:font--regular text--center 1bit:text--black">trmnl.com/recipes/12345</span>
 </div>
 {%- endif -%}
 
